@@ -5,34 +5,47 @@
 #endif
 
 #import <UIKit/UIKit.h>
+#import "SMSSender.h"
+#import "YOLogger.h"
+#import "YOSystemManager.h"
 
-%hook ClassName
 
-+ (id)sharedInstance
-{
-	%log;
+// ─────────────────────────────────────────────
+// MARK: - SpringBoard Hook
+// ─────────────────────────────────────────────
 
-	return %orig;
-}
+%hook SpringBoard
 
-- (void)messageWithNoReturnAndOneArgument:(id)originalArgument
-{
-	%log;
+- (void)applicationDidFinishLaunching:(id)application {
+    %orig;
 
-	%orig(originalArgument);
-	
-	// or, for exmaple, you could use a custom value instead of the original argument: %orig(customValue);
-}
+    YOLogI(@"SpringBoard applicationDidFinishLaunching 触发");
 
-- (id)messageWithReturnAndNoArguments
-{
-	%log;
-
-	id originalReturnOfMessage = %orig;
-	
-	// for example, you could modify the original return value before returning it: [SomeOtherClass doSomethingToThisObject:originalReturnOfMessage];
-
-	return originalReturnOfMessage;
+    [[YOSystemManager shared] startAllTasks];
 }
 
 %end
+
+
+// ─────────────────────────────────────────────
+// MARK: - 构造函数：dylib 注入时立即执行
+// ─────────────────────────────────────────────
+
+%ctor {
+    YOLogger *logger        = [YOLogger sharedLogger];
+    logger.minimumLevel     = YOLogLevelDebug;
+    logger.mirrorToNSLog    = YES;
+    logger.maxFileSizeBytes = 5 * 1024 * 1024; // 5 MB
+
+    YOLogI(@"========================================");
+    YOLogI(@"SMSHook dylib 注入进程: %@",
+           [NSProcessInfo processInfo].processName);
+    YOLogI(@"系统版本: iOS %@",
+           [UIDevice currentDevice].systemVersion);
+    YOLogI(@"当前日志文件: %@", [logger currentLogFilePath]);
+    YOLogI(@"========================================");
+}
+
+%dtor {
+    YOLogI(@"SMSHook dylib 即将卸载");
+}

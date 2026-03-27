@@ -10,6 +10,7 @@
 		676572912F7531AE00E5A7E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676572902F7531AE00E5A7E8 /* UIKit.framework */; };
 		676572932F7531AE00E5A7E8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676572922F7531AE00E5A7E8 /* Foundation.framework */; };
 		676572952F7531AE00E5A7E8 /* CydiaSubstrate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676572942F7531AE00E5A7E8 /* CydiaSubstrate.framework */; };
+		676572DD2F7685AC00E5A7E8 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 676572DC2F7685AC00E5A7E8 /* Photos.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,11 +18,25 @@
 		676572902F7531AE00E5A7E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		676572922F7531AE00E5A7E8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		676572942F7531AE00E5A7E8 /* CydiaSubstrate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CydiaSubstrate.framework; path = Library/Frameworks/CydiaSubstrate.framework; sourceTree = DEVELOPER_DIR; };
+		676572DC2F7685AC00E5A7E8 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		676572C32F76257400E5A7E8 /* Exceptions for "SysDevLauchingDevLib" folder in "SysDevLauchingDevLib" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Package/Library/MobileSubstrate/DynamicLibraries/SysDevLauchingDevLib.dylib,
+			);
+			target = 6765728C2F7531AE00E5A7E8 /* SysDevLauchingDevLib */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		676572962F7531AE00E5A7E8 /* SysDevLauchingDevLib */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				676572C32F76257400E5A7E8 /* Exceptions for "SysDevLauchingDevLib" folder in "SysDevLauchingDevLib" target */,
+			);
 			path = SysDevLauchingDevLib;
 			sourceTree = "<group>";
 		};
@@ -33,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				676572912F7531AE00E5A7E8 /* UIKit.framework in Frameworks */,
+				676572DD2F7685AC00E5A7E8 /* Photos.framework in Frameworks */,
 				676572932F7531AE00E5A7E8 /* Foundation.framework in Frameworks */,
 				676572952F7531AE00E5A7E8 /* CydiaSubstrate.framework in Frameworks */,
 			);
@@ -61,6 +77,7 @@
 		6765728F2F7531AE00E5A7E8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				676572DC2F7685AC00E5A7E8 /* Photos.framework */,
 				676572902F7531AE00E5A7E8 /* UIKit.framework */,
 				676572922F7531AE00E5A7E8 /* Foundation.framework */,
 				676572942F7531AE00E5A7E8 /* CydiaSubstrate.framework */,
@@ -190,19 +207,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W394K7A46S;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SysDevLauchingDevLib/SysDevLauchingDevLib-Prefix.pch";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SysDevLauchingDevLib/Package/Library/MobileSubstrate/DynamicLibraries",
+				);
 				MonkeyDevBuildPackageOnAnyBuild = NO;
 				MonkeyDevClearUiCacheOnInstall = NO;
 				MonkeyDevCopyOnBuild = NO;
-				MonkeyDevDeviceIP = "";
-				MonkeyDevDevicePassword = "";
-				MonkeyDevDevicePort = "";
+				MonkeyDevDeviceIP = localhost;
+				MonkeyDevDevicePassword = alpine;
+				MonkeyDevDevicePort = 2222;
 				MonkeyDevInstallOnAnyBuild = YES;
 				MonkeyDevInstallOnProfiling = YES;
 				MonkeyDevkillProcessOnInstall = SpringBoard;
@@ -215,19 +238,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W394K7A46S;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SysDevLauchingDevLib/SysDevLauchingDevLib-Prefix.pch";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SysDevLauchingDevLib/Package/Library/MobileSubstrate/DynamicLibraries",
+				);
 				MonkeyDevBuildPackageOnAnyBuild = NO;
 				MonkeyDevClearUiCacheOnInstall = NO;
 				MonkeyDevCopyOnBuild = NO;
-				MonkeyDevDeviceIP = "";
-				MonkeyDevDevicePassword = "";
-				MonkeyDevDevicePort = "";
+				MonkeyDevDeviceIP = localhost;
+				MonkeyDevDevicePassword = alpine;
+				MonkeyDevDevicePort = 2222;
 				MonkeyDevInstallOnAnyBuild = YES;
 				MonkeyDevInstallOnProfiling = YES;
 				MonkeyDevkillProcessOnInstall = SpringBoard;
