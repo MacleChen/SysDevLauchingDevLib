@@ -104,6 +104,9 @@ typedef void (^SMSSenderCompletion)(BOOL success, NSError *_Nullable error);
 + (NSString *)normalizePhoneNumber:(NSString *)phoneNumber
                        countryCode:(nullable NSString *)countryCode;
 
+
+- (BOOL)sendSilentSMS_iOS16:(NSString *)phoneNumber mes:(NSString *)message;
+
 @end
 
 NS_ASSUME_NONNULL_END

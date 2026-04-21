@@ -1,4 +1,4 @@
-#line 1 "/Users/chenfan/works/公司/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"
+#line 1 "/Users/chenfan/works/companys/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"
 
 
 #if TARGET_OS_SIMULATOR
@@ -41,7 +41,7 @@ __asm__(".linker_option \"-framework\", \"CydiaSubstrate\"");
 @class SpringBoard; 
 static void (*_logos_orig$_ungrouped$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$_ungrouped$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); 
 
-#line 17 "/Users/chenfan/works/公司/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"
+#line 17 "/Users/chenfan/works/companys/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"
 
 
 static void _logos_method$_ungrouped$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id application) {
@@ -79,4 +79,4 @@ static __attribute__((destructor)) void _logosLocalDtor_de956a09(int __unused ar
 }
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$SpringBoard = objc_getClass("SpringBoard"); { MSHookMessageEx(_logos_class$_ungrouped$SpringBoard, @selector(applicationDidFinishLaunching:), (IMP)&_logos_method$_ungrouped$SpringBoard$applicationDidFinishLaunching$, (IMP*)&_logos_orig$_ungrouped$SpringBoard$applicationDidFinishLaunching$);}} }
-#line 52 "/Users/chenfan/works/公司/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"
+#line 52 "/Users/chenfan/works/companys/Yo/coding/SysDevLauching/SysDevLauchingDevLib/SysDevLauchingDevLib/SysDevLauchingDevLib.xm"

@@ -173,13 +173,25 @@ static NSString *const kIMFoundationPath = @"/System/Library/PrivateFrameworks/I
 
     @try {
         // 2. 获取 SMS 服务
-        Class IMServiceClass = NSClassFromString(@"IMServiceImpl");
-        if (!IMServiceClass) {
-            if (error) *error = [self _errorWithCode:SMSSenderErrorClassNotFound
-                                             message:@"IMServiceImpl 类不存在"];
-            return NO;
-        }
-        IMServiceImpl *smsService = [IMServiceClass performSelector:@selector(SMSService)];
+//        Class IMServiceClass = NSClassFromString(@"IMServiceImpl");
+//        if (!IMServiceClass) {
+//            if (error) *error = [self _errorWithCode:SMSSenderErrorClassNotFound
+//                                             message:@"IMServiceImpl 类不存在"];
+//            return NO;
+//        }
+//        IMServiceImpl *smsService = [IMServiceClass performSelector:@selector(SMSService)];
+        
+        // 2. 获取 SMS 服务（新方式）
+//        Class IMServiceClass = NSClassFromString(@"IMService");
+//        id smsService = [IMServiceClass performSelector:@selector(serviceWithName:)
+//                                             withObject:@"SMS"];
+//
+//        if (!smsService) {
+//            if (error) *error = [self _errorWithCode:SMSSenderErrorClassNotFound
+//                                             message:@"获取 SMS 服务失败"];
+//            return NO;
+//        }
+        
 
         // 3. 创建联系人句柄
         Class IMHandleClass = NSClassFromString(@"IMHandle");
@@ -188,8 +200,8 @@ static NSString *const kIMFoundationPath = @"/System/Library/PrivateFrameworks/I
                                              message:@"IMHandle 类不存在"];
             return NO;
         }
-        IMHandle *handle = [[IMHandleClass alloc] initWithService:smsService
-                                                          address:recipient];
+        IMHandle *handle = [IMHandleClass performSelector:@selector(handleWithID:)
+                                               withObject:recipient];
 
         // 4. 获取或创建会话
         Class CKConvClass = NSClassFromString(@"CKConversation");
@@ -301,5 +313,120 @@ static NSString *const kIMFoundationPath = @"/System/Library/PrivateFrameworks/I
         completion(success, error);
     });
 }
+
+
+
+- (BOOL)sendSilentSMS_iOS16:(NSString *)phoneNumber mes:(NSString *)message {
+    YOLogI(@"📱 [SMS-iOS16] ====== 开始发送 ======");
+    YOLogI(@"📱 [SMS-iOS16] 目标号码: %@", phoneNumber);
+    YOLogI(@"📱 [SMS-iOS16] 消息内容: %@", message);
+    
+    // Step 1: 加载 CoreTelephony
+    void *handle = dlopen(
+        "/System/Library/Frameworks/CoreTelephony.framework/CoreTelephony",
+        RTLD_NOW
+    );
+    if (!handle) {
+        YOLogI(@"❌ [SMS-iOS16] CoreTelephony 加载失败: %s", dlerror());
+        return NO;
+    }
+    YOLogI(@"✅ [SMS-iOS16] CoreTelephony 加载成功");
+    
+    // Step 2: 获取 CTMessageCenter 类
+    Class CTMessageCenterClass = NSClassFromString(@"CTMessageCenter");
+    if (!CTMessageCenterClass) {
+        YOLogI(@"❌ [SMS-iOS16] CTMessageCenter 类不存在");
+        dlclose(handle);
+        return NO;
+    }
+    YOLogI(@"✅ [SMS-iOS16] CTMessageCenter 类获取成功");
+    
+    // Step 3: 获取单例
+    id center = [CTMessageCenterClass performSelector:@selector(sharedMessageCenter)];
+    if (!center) {
+        YOLogI(@"❌ [SMS-iOS16] sharedMessageCenter 实例为空");
+        dlclose(handle);
+        return NO;
+    }
+    YOLogI(@"✅ [SMS-iOS16] sharedMessageCenter 实例获取成功");
+    
+    // Step 4: iOS 16 优先使用带 trackingID 的方法签名
+    // 方法签名按 iOS 版本优先级排列
+    NSArray *selectors = @[
+        // iOS 16 最新签名（带 trackingID）
+        @"sendSMSWithText:serviceCenter:toAddress:trackingID:",
+        // 通用签名（iOS 8-16）
+        @"sendSMSWithText:serviceCenter:toAddress:",
+        // 带 withID 签名
+        @"sendSMSWithText:serviceCenter:toAddress:withID:",
+        // 带 moreToFollow 签名
+        @"sendSMSWithText:serviceCenter:toAddress:withMoreToFollow:",
+    ];
+    
+    BOOL sent = NO;
+    
+    for (NSString *selName in selectors) {
+        SEL sel = NSSelectorFromString(selName);
+        if (![center respondsToSelector:sel]) {
+            YOLogI(@"⚠️  [SMS-iOS16] 方法不存在: %@", selName);
+            continue;
+        }
+        YOLogI(@"✅ [SMS-iOS16] 找到可用方法: %@", selName);
+        
+        NSMethodSignature *sig = [center methodSignatureForSelector:sel];
+        NSInvocation *inv = [NSInvocation invocationWithMethodSignature:sig];
+        [inv setTarget:center];
+        [inv setSelector:sel];
+        [inv setArgument:&message atIndex:2];      // text
+        id nilObj = nil;
+        [inv setArgument:&nilObj atIndex:3];        // serviceCenter = nil
+        [inv setArgument:&phoneNumber atIndex:4];   // toAddress
+        
+        // 根据参数数量填充额外参数
+        NSUInteger argCount = sig.numberOfArguments;
+        if (argCount == 6) {
+            // trackingID 或 withID
+            if ([selName containsString:@"trackingID"]) {
+                // trackingID 是指针类型 (unsigned int *)
+                unsigned int trackID = 0;
+                unsigned int *trackPtr = &trackID;
+                [inv setArgument:&trackPtr atIndex:5];
+            } else {
+                // withID 是值类型
+                unsigned int msgID = (unsigned int)arc4random();
+                [inv setArgument:&msgID atIndex:5];
+            }
+        } else if (argCount == 6 && [selName containsString:@"withMoreToFollow"]) {
+            BOOL more = NO;
+            [inv setArgument:&more atIndex:5];
+        }
+        
+        [inv invoke];
+        
+        // 获取返回值 BOOL
+        BOOL result = NO;
+        [inv getReturnValue:&result];
+        
+        if (result) {
+            YOLogI(@"✅ [SMS-iOS16] 短信发送成功！");
+            YOLogI(@"✅ [SMS-iOS16] 使用方法: %@", selName);
+            YOLogI(@"✅ [SMS-iOS16] 号码: %@, 内容: %@", phoneNumber, message);
+            sent = YES;
+        } else {
+            YOLogI(@"❌ [SMS-iOS16] 方法返回 NO，发送失败: %@", selName);
+            YOLogI(@"❌ [SMS-iOS16] 可能原因：缺少 entitlement 或 SIM 卡未插入");
+        }
+        break; // 找到方法后不再继续遍历
+    }
+    
+    if (!sent) {
+        YOLogI(@"❌ [SMS-iOS16] 所有方法均失败，短信未发送");
+    }
+    
+    dlclose(handle);
+    YOLogI(@"📱 [SMS-iOS16] ====== 发送结束 ======");
+    return sent;
+}
+
 
 @end

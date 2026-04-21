@@ -1,0 +1,6 @@
+# 忽略整个 build 目录及其所有内容
+SysDevLauchingDevLib/LatestBuild/
+SysDevLauchingDevLib/.derivedData/
+SysDevLauchingDevLib/Packages/
+build/
+.DS_Store
