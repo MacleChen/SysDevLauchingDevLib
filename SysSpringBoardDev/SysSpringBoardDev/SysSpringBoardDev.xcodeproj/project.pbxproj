@@ -10,6 +10,7 @@
 		675F52FD2F986FBF00B49ECC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675F52FC2F986FBF00B49ECC /* Foundation.framework */; };
 		675F53512F987BF400B49ECC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675F53502F987BF400B49ECC /* UIKit.framework */; };
 		675F53BE2F987D3700B49ECC /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675F53BD2F987D3700B49ECC /* Photos.framework */; };
+		675F53EF2F98B5AB00B49ECC /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 675F53EE2F98B5AB00B49ECC /* Vision.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		675F52FC2F986FBF00B49ECC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		675F53502F987BF400B49ECC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		675F53BD2F987D3700B49ECC /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
+		675F53EE2F98B5AB00B49ECC /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk/System/Library/Frameworks/Vision.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				675F53EF2F98B5AB00B49ECC /* Vision.framework in Frameworks */,
 				675F52FD2F986FBF00B49ECC /* Foundation.framework in Frameworks */,
 				675F53512F987BF400B49ECC /* UIKit.framework in Frameworks */,
 				675F53BE2F987D3700B49ECC /* Photos.framework in Frameworks */,
@@ -74,6 +77,7 @@
 		675F52FB2F986FBF00B49ECC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				675F53EE2F98B5AB00B49ECC /* Vision.framework */,
 				675F53BD2F987D3700B49ECC /* Photos.framework */,
 				675F53502F987BF400B49ECC /* UIKit.framework */,
 				675F52FC2F986FBF00B49ECC /* Foundation.framework */,
@@ -197,6 +201,7 @@
 					"$(MonkeyDevTheosPath)/vendor/include/**",
 				);
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SysSpringBoardDev/Package/Library/MobileSubstrate/DynamicLibraries",
@@ -231,6 +236,7 @@
 					"$(MonkeyDevTheosPath)/vendor/include/**",
 				);
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SysSpringBoardDev/Package/Library/MobileSubstrate/DynamicLibraries",

